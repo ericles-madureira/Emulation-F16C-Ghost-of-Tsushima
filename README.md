@@ -1,6 +1,39 @@
-# FX-Reborn-F16C-Ultra 3.0
+# FX-Reborn-F16C-Ultra 3.0 — F16C fix / emulação F16C (Ghost of Tsushima e outros jogos)
 
-*(antes chamado F16C-Emu)*
+*(antes chamado F16C-Emu)* · [🇧🇷 Português](#português) · [🇺🇸 English](#english)
+
+> **Seu jogo fecha com "illegal instruction" / "instrução ilegal" ou diz que o processador não é suportado?** Se o seu processador não tem **F16C** (Intel Sandy Bridge como i7-2600, i5-2400, i5-2500K, ou AMD FX-4100/6100/8120/8150), esta ferramenta modifica o `.exe` para ele rodar mesmo assim. Foi criada para o **Ghost of Tsushima** no PC e funciona com outros programas x64 que exigem F16C.
+>
+> **Does your game crash with "illegal instruction" or say your CPU is not supported?** If your CPU lacks **F16C** (Intel Sandy Bridge such as i7-2600, i5-2400, i5-2500K, or AMD FX-4100/6100/8120/8150), this tool patches the `.exe` so it runs anyway. Built for **Ghost of Tsushima** on PC; works with other x64 programs that require F16C.
+
+A janela do programa está em **português e inglês** (escolha no canto superior direito; abre no idioma do Windows). / The app window is in **Portuguese and English** (pick it at the top right; it opens in your Windows language).
+
+---
+
+## English
+
+**FX-Reborn-F16C-Ultra** rewrites a Windows x64 executable **once** so it runs on CPUs **without F16C**. Each F16C instruction (`VCVTPH2PS`, `VCVTPS2PH`) is replaced by a jump to equivalent plain-AVX code stored in a new `.f16c` section of the same file. There is no emulator running alongside the game and no extra DLL; results are bit-for-bit identical to the real instructions.
+
+### How to use
+
+1. **Close** the game.
+2. Double-click **`Abrir FX-Reborn-F16C-Ultra.cmd`** (the window opens in English if Windows is not in Portuguese; you can switch with the *Language* box).
+3. Click **Browse...** and pick the game `.exe` (or drag it into the box).
+4. Choose **Replace the file** (the original is saved as `name.exe.f16c-backup`) or **Create a converted copy** (`name_f16c.exe`).
+5. Click **3. Apply** and wait for `PRONTO` (done). Big games take a few minutes.
+6. Start the game normally. To undo, pick the same file and click **Restore original**.
+
+Nothing to install (Python is bundled) and nothing is sent to the internet.
+
+**Still crashing?** Restore the original, tick **Aggressive mode** and apply again. The game may also need *other* instructions your CPU lacks (AVX2, FMA, BMI…) — for those use **FX Reborn Toolkit Ultra 3.0**. Convert game DLLs that contain F16C too.
+
+**Requirements and warnings:** Windows 64-bit, x64 `.exe`/`.dll`, a CPU with **AVX** (every Sandy Bridge / AMD FX has it). Don't use it on online games with anti-cheat (risk of ban). Steam/Epic may "repair" the file after an update — just apply again. Never distribute game executables, only this tool.
+
+Command line: `f16c-cli scan|patch|restore "C:\path\Game.exe"` (`--in-place`, `--aggressive`, `-o out.exe`). Technical details are in the Portuguese section below.
+
+---
+
+## Português
 
 Faz um programa de Windows que **exige F16C** rodar em processadores que **não têm F16C** (por exemplo Intel Sandy Bridge: i5-2400, i7-2600; AMD FX-4100/6100/8100/8150).
 
@@ -114,3 +147,11 @@ MIT (veja `LICENSE`). Projeto de código aberto.
 - O localizador de código (`core/discover_code_sites.py`, `core/find_sites.py`) vem do [FX Reborn Toolkit](https://github.com/mcirish3/FX-Reborn-Toolkit) de Patrick McCoy (MIT), usado sem alterações. A ideia geral (traduzir antes, dentro do executável) também vem dele.
 - Bibliotecas: [iced-x86](https://github.com/icedland/iced) e [pefile](https://github.com/erocarrera/pefile) (MIT). O Python 3.13 incluído é distribuído sob a licença PSF.
 - Distribua apenas esta ferramenta. **Nunca distribua executáveis de jogos**, originais ou convertidos.
+
+## Projetos relacionados / Related projects
+
+- **FX Reborn Toolkit Ultra 3.0** — para jogos que exigem também **AVX2, FMA3, BMI1/BMI2, LZCNT, MOVBE** (ex.: Final Fantasy VII Rebirth no i7-2600 / AMD FX). / For games that also require AVX2, FMA3, BMI1/2, LZCNT, MOVBE.
+
+## Termos de busca / Search terms
+
+Ghost of Tsushima F16C fix · Ghost of Tsushima não abre i7-2600 · Ghost of Tsushima illegal instruction · Ghost of Tsushima Sandy Bridge · F16C emulator · F16C emulation · emulador F16C · rodar jogo sem F16C · run game without F16C · CPU does not support F16C · processador não suportado · VCVTPH2PS VCVTPS2PH · i7-2600 · i5-2400 · i5-2500K · i7-2700K · Sandy Bridge mod · AMD FX-8150 · FX-6100 · FX-4100 · Bulldozer · jogo fecha ao abrir · instrução ilegal · illegal instruction 0xC000001D · STATUS_ILLEGAL_INSTRUCTION · alternativa ao Intel SDE · Intel SDE alternative · mod para PC antigo · old CPU game fix
